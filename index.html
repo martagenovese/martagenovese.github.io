@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafico delle Medie</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>Subjects Average</h1>
+    </div>
+    <div class="side left">
+        <div class="chart-container">
+            <canvas id="generalAverageChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="subjectAveragesChart1"></canvas>
+        </div>
+    </div>
+    <div class="side right">
+        <div class="list-container">
+            <button id="loadDirectoryButton">Load Grades</button>
+            <ul id="subjectList"></ul>
+            <input type="file" id="directoryInput" webkitdirectory style="display: none;">
+            <div id="marksContainer"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
