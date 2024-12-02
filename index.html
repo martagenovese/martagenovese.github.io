@@ -6,6 +6,7 @@
     <title>Grafico delle Medie</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
 <body>
     <div class="header">
@@ -20,12 +21,10 @@
         </div>
     </div>
     <div class="side right">
-        <div class="list-container">
-            <button id="loadDirectoryButton">Load Grades</button>
-            <ul id="subjectList"></ul>
-            <input type="file" id="directoryInput" webkitdirectory style="display: none;">
-            <div id="marksContainer"></div>
-        </div>
+        <button id="loadDirectoryButton">Load Directory</button>
+        <input type="file" id="directoryInput" webkitdirectory style="display: none;">
+        <ul id="subjectList"></ul>
+        <div id="marksContainer"></div>
     </div>
     <script src="script.js"></script>
 </body>

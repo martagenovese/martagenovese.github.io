@@ -4,7 +4,7 @@ const generalAverageData = {
     datasets: [{
         label: 'Media Generale',
         data: [7.5, 2.5], // 7.5 is the average, 2.5 to complete the circle to 10
-        backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(211, 211, 211, 0.2)'],
+        backgroundColor: ['rgba(75, 192, 192, 0.7)', 'rgba(211, 211, 211, 0.7)'],
         borderColor: ['rgba(75, 192, 192, 1)', 'rgba(211, 211, 211, 1)'],
         borderWidth: 1
     }]
@@ -19,6 +19,19 @@ const generalAverageConfig = {
         plugins: {
             legend: {
                 display: false
+            },
+            datalabels: {
+                display: true,
+                formatter: (value, context) => {
+                    const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                    const average = total / 2; // Since the data array has two values: average and remaining
+                    return average.toFixed(2);
+                },
+                color: 'white', // Set the color of the text labels
+                font: {
+                    weight: 'bold',
+                    size: 16
+                }
             }
         }
     }
@@ -26,16 +39,16 @@ const generalAverageConfig = {
 
 // Dati per il grafico delle medie delle materie
 const subjectAveragesData = {
-    labels: ['Matematica', 'Italiano', 'Scienze', 'Storia', 'Geografia'], // Sostituisci con le materie reali
+    labels: ['Matematica', 'Italiano', 'Scienze', 'Storia', 'Geografia'],
     datasets: [{
         label: 'Average for each subject',
-        data: [8, 7, 6.5, 7.5, 8], // Sostituisci con le medie reali
+        data: [8, 7, 6.5, 7.5, 8],
         backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)'
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(153, 102, 255, 0.7)'
         ],
         borderColor: [
             'rgba(255, 99, 132, 1)',
@@ -56,6 +69,16 @@ const subjectAveragesConfig = {
         scales: {
             y: {
                 beginAtZero: true
+            }
+        },
+        plugins: {
+            datalabels: {
+                display: true,
+                color: 'white', // Set the color of the text labels
+                font: {
+                    weight: 'bold',
+                    size: 12
+                }
             }
         }
     }
@@ -117,9 +140,33 @@ function loadMarksFromFile(file) {
                 createSubjectChart(subject);
             } else {
                 markslist.innerHTML = `<span class="subject-name">${subject}</span><br>\n`;
+                table = document.createElement('table');
+                th = document.createElement('th');
+                tr = document.createElement('tr');
+                th.innerHTML = 'Voto';
+                tr.appendChild(th);
+                th = document.createElement('th');
+                th.innerHTML = 'Data';
+                tr.appendChild(th);
+                th = document.createElement('th');
+                th.innerHTML = 'Descrizione';
+                tr.appendChild(th);
+                table.appendChild(tr);
+
                 for (const mark of marks) {
-                    markslist.innerHTML += `${mark.grade} - ${mark.date} - ${mark.descr}\n`;
+                    tr = document.createElement('tr');
+                    td = document.createElement('td');
+                    td.innerHTML = mark.grade;
+                    tr.appendChild(td);
+                    td = document.createElement('td');
+                    td.innerHTML = mark.date;
+                    tr.appendChild(td);
+                    td = document.createElement('td');
+                    td.innerHTML = mark.descr;
+                    tr.appendChild(td);
+                    table.appendChild(tr)
                 }
+                markslist.appendChild(table);
                 markslist.classList.add('expanded');
             }
         });
@@ -136,16 +183,16 @@ function updateGeneralChart() {
 
     let backgroundColor;
     if (overallAverage >= 6) {
-        backgroundColor = 'rgba(75, 192, 192, 0.2)'; // Green
+        backgroundColor = 'rgba(75, 192, 192, 0.7)'; // Green
     } else if (overallAverage >= 5) {
-        backgroundColor = 'rgba(255, 206, 86, 0.2)'; // Yellow
+        backgroundColor = 'rgba(255, 206, 86, 0.7)'; // Yellow
     } else {
-        backgroundColor = 'rgba(255, 99, 132, 0.2)'; // Red
+        backgroundColor = 'rgba(255, 99, 132, 0.7)'; // Red
     }
 
     generalAverageChart.data.datasets[0].data = [overallAverage, 10 - overallAverage];
     generalAverageChart.data.datasets[0].backgroundColor = [backgroundColor, 'rgba(211, 211, 211, 0.2)'];
-    generalAverageChart.data.datasets[0].borderColor = [backgroundColor.replace('0.2', '1'), 'rgba(211, 211, 211, 1)'];
+    generalAverageChart.data.datasets[0].borderColor = [backgroundColor.replace('0.7', '1'), 'rgba(211, 211, 211, 1)'];
     generalAverageChart.update();
 }
 function updateSubjectAveragesChart() {
@@ -159,15 +206,15 @@ function updateSubjectAveragesChart() {
 
     const backgroundColors = subjectAverages.map(average => {
         if (average >= 6) {
-            return 'rgba(75, 192, 192, 0.2)'; // Green
+            return 'rgba(75, 192, 192, 0.7)'; // Green
         } else if (average >= 5) {
-            return 'rgba(255, 206, 86, 0.2)'; // Yellow
+            return 'rgba(255, 206, 86, 0.7)'; // Yellow
         } else {
-            return 'rgba(255, 99, 132, 0.2)'; // Red
+            return 'rgba(255, 99, 132, 0.7)'; // Red
         }
     });
 
-    const borderColors = backgroundColors.map(color => color.replace('0.2', '1'));
+    const borderColors = backgroundColors.map(color => color.replace('0.7', '1'));
 
     subjectAveragesChart1.data.labels = subjectNames;
     subjectAveragesChart1.data.datasets[0].data = subjectAverages;
@@ -183,11 +230,11 @@ function createSubjectChart(subjectName) {
 
     let backgroundColor;
     if (average >= 6) {
-        backgroundColor = 'rgba(75, 192, 192, 0.2)'; // Green
+        backgroundColor = 'rgba(75, 192, 192, 0.7)'; // Green
     } else if (average >= 5) {
-        backgroundColor = 'rgba(255, 206, 86, 0.2)'; // Yellow
+        backgroundColor = 'rgba(255, 206, 86, 0.7)'; // Yellow
     } else {
-        backgroundColor = 'rgba(255, 99, 132, 0.2)'; // Red
+        backgroundColor = 'rgba(255, 99, 132, 0.7)'; // Red
     }
 
     const data = {
@@ -195,7 +242,7 @@ function createSubjectChart(subjectName) {
         datasets: [{
             data: [average, 10 - average],
             backgroundColor: [backgroundColor, 'rgba(211, 211, 211, 0.2)'],
-            borderColor: [backgroundColor.replace('0.2', '1'), 'rgba(211, 211, 211, 1)'],
+            borderColor: [backgroundColor.replace('0.7', '1'), 'rgba(211, 211, 211, 1)'],
             borderWidth: 1
         }]
     };
