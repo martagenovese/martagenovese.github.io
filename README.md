@@ -2,5 +2,8 @@
 keep track of your grades
 
 
-## csv format
-grade;date;descr
+## format
+you can upload a directory with the files named as the subjects and this site will generate an overwiew of how's it going.
+
+the file format is:
+    grade;date;descr
